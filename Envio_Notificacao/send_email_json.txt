@@ -1,0 +1,9 @@
+{
+    "title": "PIPELINE RUN FINISHED",
+    "message": "COPY-PIPELINE FINISHED RUNNING SUCCESSFULLY!",
+    "color": "Green",
+    "dataFactoryName": "@{pipeline().DataFactory}",
+    "pipelineName": "@{pipeline().Pipeline}",
+    "pipelineRunId": "@{pipeline().RunId}",
+    "time": "@{formatDateTime(convertTimeZone(utcnow(), 'UTC', 'E. South America Standard Time' ),'dd/MM/yyyy HH:mm:ss' )}"
+}

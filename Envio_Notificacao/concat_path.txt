@@ -1,0 +1,4 @@
+Concat path
+
+- @concat('bronze\customer\', formatDateTime(utcnow(), 'yyyy-dd-MM'))
+

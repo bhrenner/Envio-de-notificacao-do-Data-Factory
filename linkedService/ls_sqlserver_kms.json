@@ -1,0 +1,17 @@
+{
+	"name": "ls_sqlserver_kms",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=True;data source=KMS-NB252;initial catalog=brazil-ecommerce",
+			"userName": "KUMULUS\\bhrenner.wilson",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIwOTM2N2IyNi0yNzE1LTRiZjQtOTYwMS03MTM4NmY4MjE1OTgiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "ia-bhrenner",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

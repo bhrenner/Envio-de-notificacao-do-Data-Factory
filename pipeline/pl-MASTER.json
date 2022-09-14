@@ -1,0 +1,79 @@
+{
+	"name": "pl-MASTER",
+	"properties": {
+		"activities": [
+			{
+				"name": "Execute Copy",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pipe_copy_data",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Send Email",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "Execute Copy",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://prod-07.centralus.logic.azure.com:443/workflows/1d76e63406f74a4bb9bb42cb72714687/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=sJKrdHMS4Hfl3D253U7eTBBCCrGcv-kJZYIu_sVraAI",
+					"method": "POST",
+					"body": {
+						"value": "{\n    \"title\": \"PIPELINE RUN FINISHED\",\n    \"message\": \"COPY-PIPELINE FINISHED RUNNING SUCCESSFULLY!\",\n    \"color\": \"Green\",\n    \"dataFactoryName\": \"@{pipeline().DataFactory}\",\n    \"pipelineName\": \"@{pipeline().Pipeline}\",\n    \"pipelineRunId\": \"@{pipeline().RunId}\",\n    \"time\": \"@{formatDateTime(convertTimeZone(utcnow(), 'UTC', 'E. South America Standard Time' ),'dd/MM/yyyy HH:mm:ss' )}\"\n}",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Send Falied Email",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "Execute Copy",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://prod-07.centralus.logic.azure.com:443/workflows/1d76e63406f74a4bb9bb42cb72714687/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=sJKrdHMS4Hfl3D253U7eTBBCCrGcv-kJZYIu_sVraAI",
+					"method": "POST",
+					"body": {
+						"value": "{\n    \"title\": \"PIPELINE RUN FAILED\",\n    \"message\": \"@{activity('Execute Copy').error.message}\",\n    \"color\": \"Red\",\n    \"dataFactoryName\": \"@{pipeline().DataFactory}\",\n    \"pipelineName\": \"@{pipeline().Pipeline}\",\n    \"pipelineRunId\": \"@{pipeline().RunId}\",\n    \"time\": \"@{formatDateTime(convertTimeZone(utcnow(), 'UTC', 'E. South America Standard Time' ),'dd/MM/yyyy HH:mm:ss' )}\"\n}",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2022-09-14T20:38:15Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

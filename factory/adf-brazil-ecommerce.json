@@ -1,0 +1,9 @@
+{
+	"name": "adf-brazil-ecommerce",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "3423d98e-ccc4-484b-9940-156a0ee521fe",
+		"tenantId": "cf72e2bd-7a2b-4783-bdeb-39d57b07f76f"
+	}
+}
